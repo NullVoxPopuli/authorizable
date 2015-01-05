@@ -4,6 +4,7 @@ describe Authorizable::Model, type: :model do
 
   before(:each) do
     @user = create(:user)
+    @user.class.send(:include, Authorizable::Model)
   end
 
   describe "process_permission" do

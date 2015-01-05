@@ -3,9 +3,13 @@ authorizable
 
 A gem for rails giving vast flexibility in authorization management.
 
+[![Build Status](https://travis-ci.org/NullVoxPopuli/authorizable.svg)](https://travis-ci.org/NullVoxPopuli/authorizable)
 
 more info coming soon...
 
+## Why not CanCan?
+
+answer coming soon...
 
 ## Contributing
 
