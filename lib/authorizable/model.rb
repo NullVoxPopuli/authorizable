@@ -6,9 +6,8 @@ module Authorizable
     extend ActiveSupport::Concern
 
     # @TODO figure out how to make roles generic
-    IS_UNRELATED = 0
-    IS_OWNER = 1
-    IS_COLLABORATER = 2
+    IS_OWNER = 0
+    IS_UNRELATED = 1
 
     def method_missing(name, *args, &block)
       string_name = name.to_s
@@ -49,7 +48,7 @@ module Authorizable
         result &= proc.call(o, self)
       end
 
-      if ownership_status == IS_COLLABORATER &&
+      if ownership_status == IS_UNRELATED &&
           (o.is_a?(Event) )
 
         collaboration = o.collaborations.where(user_id: self.id).first
@@ -102,7 +101,7 @@ module Authorizable
         else
           if object.respond_to?(:collaborators)
             if object.collaborator_ids.include?(self.id)
-              return IS_COLLABORATER
+              return IS_UNRELATED
             end
           end
         end

@@ -69,7 +69,7 @@ describe Authorizable::Model, type: :model do
         @event.collaborators << @collaborator
         @event.save
         result = @collaborator.send(:get_ownership_status_of, @event)
-        expect(result).to eq Authorizable::Model::IS_COLLABORATER
+        expect(result).to eq Authorizable::Model::IS_UNRELATED
       end
 
       it 'is unrelated' do
@@ -93,7 +93,7 @@ describe Authorizable::Model, type: :model do
         @event.collaborators << @collaborator
         @event.save
         result = @collaborator.send(:get_ownership_status_of, @discount)
-        expect(result).to eq Authorizable::Model::IS_COLLABORATER
+        expect(result).to eq Authorizable::Model::IS_UNRELATED
       end
 
       it 'is unrelated' do
@@ -128,7 +128,7 @@ describe Authorizable::Model, type: :model do
 
         it 'is an owner' do
           result = @user2.send(:collaborator_or_owner, @event)
-          expect(result).to eq Authorizable::Model::IS_COLLABORATER
+          expect(result).to eq Authorizable::Model::IS_UNRELATED
         end
       end
     end
