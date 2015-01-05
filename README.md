@@ -20,6 +20,12 @@ A gem for rails giving vast flexibility in authorization management.
  - Controller response is customizable
  - Controller behavior defined in one place (optionally in the controller)
 
+## Installation
+
+Gemfile
+
+  gem "authorizable", github: "NullVoxPopuli/authorizable"
+
 ## Configuration
 ### Defining permissions
 
