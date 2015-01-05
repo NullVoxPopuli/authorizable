@@ -3,7 +3,10 @@ authorizable
 
 A gem for rails giving vast flexibility in authorization management.
 
-[![Build Status](https://travis-ci.org/NullVoxPopuli/authorizable.svg)](https://travis-ci.org/NullVoxPopuli/authorizable)
+[![Build Status](https://travis-ci.org/NullVoxPopuli/authorizable.svg?style=flat-square)](https://travis-ci.org/NullVoxPopuli/authorizable)
+[![Code Climate](http://img.shields.io/codeclimate/github/NullVoxPopuli/authorizable.svg?style=flat-square)](https://codeclimate.com/github/NullVoxPopuli/authorizable)
+[![Test Coverage](http://img.shields.io/codeclimate/coverage/github/NullVoxPopuli/authorizable.svg?style=flat-square)](https://codeclimate.com/github/NullVoxPopuli/authorizable)
+
 
 ## Features
 
