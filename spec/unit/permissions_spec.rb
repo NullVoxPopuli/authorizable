@@ -2,11 +2,6 @@ require 'rails_helper'
 
 describe Authorizable::Permissions do
 
-  after(:each) do
-    # reset class variable
-    Authorizable::Permissions.definitions = {}
-  end
-
   describe 'set' do
     it 'sets class attribute' do
       Authorizable::Permissions.set(
@@ -23,6 +18,7 @@ describe Authorizable::Permissions do
     end
 
     it 'expands crud' do
+      Authorizable::Permissions.definitions = {}
       before_count = Authorizable::Permissions.definitions.keys.count
       Authorizable::Permissions.set(
         crud: [
