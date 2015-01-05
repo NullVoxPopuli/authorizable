@@ -5,7 +5,7 @@ require "pry-byebug" # binding.pry to debug!
 
 # Coverage
 require "codeclimate-test-reporter"
-ENV['CODECLIMATE_REPO_TOKEN'] = ""
+ENV['CODECLIMATE_REPO_TOKEN'] = "68f28e1d037ca7b58d24f943b59d82cd649e1f9b9f79437d4a5d864140dd4eb0"
 CodeClimate::TestReporter.start
 
 require 'rspec/autorun'

@@ -6,7 +6,7 @@ rvm:
 script: "bundle exec rspec"
 addons:
   code_climate:
-    repo_token: ''
+    repo_token: '68f28e1d037ca7b58d24f943b59d82cd649e1f9b9f79437d4a5d864140dd4eb0'
 branches:
   only: master
 notifications:
