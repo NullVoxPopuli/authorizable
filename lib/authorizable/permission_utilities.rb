@@ -12,7 +12,7 @@ module Authorizable
     ACCESS = 1
 
     def self.permissions
-      Authorizable::Permissions.master
+      Authorizable::Permissions.definitions
     end
 
     def self.set_for_role(role)

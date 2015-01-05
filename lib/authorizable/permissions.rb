@@ -6,6 +6,14 @@ module Authorizable
     OBJECT = PermissionUtilities::OBJECT
     ACCESS = PermissionUtilities::ACCESS
 
+    # defaults for a resource
+    CRUD_TYPES = [
+      edit: OBJECT,
+      delete: OBJECT,
+      create: OBJECT,
+      view: ACCESS
+    ]
+
     # where all the permission definitions are stored
     #
     # example structure:
@@ -56,7 +64,19 @@ module Authorizable
     #
     # @param [Hash] permissions
     def self.set(permissions)
+      cruds = permissions.delete(:crud)
+
       self.definitions = permissions
+
+      if cruds.present?
+        cruds.each do |key, values_for_roles|
+          CRUD_TYPES.each do |action, type|
+            permission = "#{action}_#{key}".to_sym
+            permission_array = [type, values_for_roles]
+            self.definitions[permission] = permission_array
+          end
+        end
+      end
     end
 
   end
