@@ -50,7 +50,7 @@ module Authorizable
       end
 
       if ownership_status == IS_COLLABORATER &&
-          (o.is_a?(Event) || o.is_a?(Organization))
+          (o.is_a?(Event) )
 
         collaboration = o.collaborations.where(user_id: self.id).first
         result &= can?(permission, ownership_status, collaboration.permissions)
@@ -84,15 +84,11 @@ module Authorizable
     end
 
     def get_ownership_status_of(object)
-      if object.is_a?(Event) || object.is_a?(Organization)
+      if object.is_a?(Event)
         return collaborator_or_owner(object)
       else
         object = (
-          if object.respond_to?(:event)
-            object.event
-          elsif object.respond_to?(:organization)
-            object.organization
-          end
+          object.event
         )
         return collaborator_or_owner(object)
       end

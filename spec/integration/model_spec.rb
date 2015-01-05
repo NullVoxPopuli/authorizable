@@ -78,29 +78,6 @@ describe Authorizable::Model, type: :model do
       end
     end
 
-    context 'organization' do
-      before(:each) do
-        @organization = create(:organization, user: @user)
-      end
-
-      it 'is owner' do
-        result = @user.send(:get_ownership_status_of, @organization)
-        expect(result).to eq Authorizable::Model::IS_OWNER
-      end
-
-      it 'is collaborator' do
-        @organization.collaborators << @collaborator
-        @organization.save
-        result = @collaborator.send(:get_ownership_status_of, @organization)
-        expect(result).to eq Authorizable::Model::IS_COLLABORATER
-      end
-
-      it 'is unrelated' do
-        result = @unrelated.send(:get_ownership_status_of, @organization)
-        expect(result).to eq Authorizable::Model::IS_UNRELATED
-      end
-    end
-
     context 'child object' do
       before(:each) do
         @event = create(:event, user: @user)
@@ -151,32 +128,6 @@ describe Authorizable::Model, type: :model do
 
         it 'is an owner' do
           result = @user2.send(:collaborator_or_owner, @event)
-          expect(result).to eq Authorizable::Model::IS_COLLABORATER
-        end
-      end
-    end
-
-    context 'organization' do
-      before(:each) do
-        @organization = create(:organization, user: @user)
-      end
-
-      context 'owner' do
-        it 'organization' do
-          result = @user.send(:collaborator_or_owner, @organization)
-          expect(result).to eq Authorizable::Model::IS_OWNER
-        end
-      end
-
-      context 'collaborator' do
-        before(:each) do
-          @user2 = create(:user)
-          @organization.collaborators << @user2
-          @organization.save
-        end
-
-        it 'is an owner' do
-          result = @user2.send(:collaborator_or_owner, @organization)
           expect(result).to eq Authorizable::Model::IS_COLLABORATER
         end
       end

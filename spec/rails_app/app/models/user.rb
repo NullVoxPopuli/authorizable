@@ -1,10 +1,9 @@
 class User < ActiveRecord::Base
   has_many :some_resources
 
-  has_many :collaborated_some_resources,
+  has_many :collaborated_events,
     through: :collaborations,
-    source: :collaborated,
-    source_type: Event.name
+    source: :user
   has_many :collaborations
 
 end

@@ -37,14 +37,6 @@ ActiveRecord::Schema.define(version: 20150104171110) do
     t.datetime "updated_at"
   end
 
-  create_table "organizations", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "owner_id"
-    t.datetime "deleted_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

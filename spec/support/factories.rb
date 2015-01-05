@@ -9,10 +9,6 @@ FactoryGirl.define do
     association :user, factory: :user
   end
 
-  factory :organization do
-    name "Naptown Stomp"
-  end
-
   factory :discount do
     name "Some Discount"
     event
