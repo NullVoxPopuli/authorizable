@@ -79,6 +79,29 @@ module Authorizable
       end
     end
 
+    # similar to how CanCan does the creation of permission
+    # but without the need for a user to exist immediately
+    #
+    # @param [Symbol] name what the permission should be called
+    #   (the can prefix is automatic, and should be excluded)
+    # @param [Boolean] allow (true) default authorization for this permission
+    # @param [Array] allow (true) default authorization for this permission
+    # @param [String] description (nil) how to explain this permission
+    # @param [Proc] visibility (nil) conditions used when rendering this permission in the UI
+    # @param [Proc] conditions (nil) additional conditions used when authorizing a user
+    # @param [Number] kind (OBJECT) used to specify if this permission takes access on an object or not
+    def self.can(name, allow = true, description = nil, visibility = nil, conditions = nil, kind = OBJECT)
+      permission_array = [kind, allow, description, visibility, conditions]
+      self.add(name.to_sym, permission_array)
+    end
+
+
+    private
+
+    def self.add(key, array)
+      self.definitions[key] = array
+    end
+
   end
 
 end
