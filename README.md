@@ -24,7 +24,7 @@ A gem for rails giving vast flexibility in authorization management.
 
 Gemfile
 
-  gem "authorizable", github: "NullVoxPopuli/authorizable"
+    gem "authorizable", github: "NullVoxPopuli/authorizable"
 
 ## Configuration
 ### Defining permissions

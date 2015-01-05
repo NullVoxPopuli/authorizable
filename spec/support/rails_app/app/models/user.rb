@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  has_many :some_resources
+  has_many :events
 
   has_many :collaborated_events,
     through: :collaborations,
