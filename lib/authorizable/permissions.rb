@@ -7,12 +7,12 @@ module Authorizable
     ACCESS = PermissionUtilities::ACCESS
 
     # defaults for a resource
-    CRUD_TYPES = [
+    CRUD_TYPES = {
       edit: OBJECT,
       delete: OBJECT,
       create: OBJECT,
       view: ACCESS
-    ]
+    }
 
     # where all the permission definitions are stored
     #
@@ -69,11 +69,15 @@ module Authorizable
       self.definitions = permissions
 
       if cruds.present?
-        cruds.each do |key, values_for_roles|
-          CRUD_TYPES.each do |action, type|
-            permission = "#{action}_#{key}".to_sym
-            permission_array = [type, values_for_roles]
-            self.definitions[permission] = permission_array
+        cruds.each do |set|
+          set.each do |key, values_for_roles|
+            CRUD_TYPES.each do |action, kind|
+              permission = "#{action}_#{key}"
+              permission << "s" if kind == ACCESS # need a better way to pluralize
+              permission = permission.to_sym
+              permission_array = [kind, values_for_roles]
+              self.definitions[permission] = permission_array
+            end
           end
         end
       end
@@ -92,14 +96,15 @@ module Authorizable
     # @param [Number] kind (OBJECT) used to specify if this permission takes access on an object or not
     def self.can(name, allow = true, description = nil, visibility = nil, conditions = nil, kind = OBJECT)
       permission_array = [kind, allow, description, visibility, conditions]
-      self.add(name.to_sym, permission_array)
+      self.add(name, permission_array)
     end
-
 
     private
 
+    # @param [Symbol] key permission name
+    # @param [Array] array settings for permission
     def self.add(key, array)
-      self.definitions[key] = array
+      self.definitions[key.to_sym] = array
     end
 
   end
