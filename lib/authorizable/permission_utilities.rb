@@ -18,7 +18,7 @@ module Authorizable
     def self.set_for_role(role)
       permissions.inject({}) { |h,(k, v)|
         value = v[DEFAULT_ACCESS]
-        h[k.to_s] = value.is_a?(Array) ? value[role] : value
+        h[k.to_sym] = value.is_a?(Array) ? value[role] : value
         h
       }
     end
