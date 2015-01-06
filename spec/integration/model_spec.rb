@@ -60,7 +60,7 @@ describe Authorizable::Model, type: :model do
     end
   end
 
-  describe "get_ownership_status_of" do
+  describe "get_role_of" do
     before(:each) do
       @collaborator = create(:user)
       @unrelated = create(:user)
@@ -72,19 +72,19 @@ describe Authorizable::Model, type: :model do
       end
 
       it 'is owner' do
-        result = @user.send(:get_ownership_status_of, @event)
+        result = @user.send(:get_role_of, @event)
         expect(result).to eq Authorizable::Model::IS_OWNER
       end
 
       it 'is collaborator' do
         @event.collaborators << @collaborator
         @event.save
-        result = @collaborator.send(:get_ownership_status_of, @event)
+        result = @collaborator.send(:get_role_of, @event)
         expect(result).to eq Authorizable::Model::IS_UNRELATED
       end
 
       it 'is unrelated' do
-        result = @unrelated.send(:get_ownership_status_of, @event)
+        result = @unrelated.send(:get_role_of, @event)
         expect(result).to eq Authorizable::Model::IS_UNRELATED
       end
     end
@@ -96,19 +96,19 @@ describe Authorizable::Model, type: :model do
       end
 
       it 'is owner' do
-        result = @user.send(:get_ownership_status_of, @discount)
+        result = @user.send(:get_role_of, @discount)
         expect(result).to eq Authorizable::Model::IS_OWNER
       end
 
       it 'is collaborator' do
         @event.collaborators << @collaborator
         @event.save
-        result = @collaborator.send(:get_ownership_status_of, @discount)
+        result = @collaborator.send(:get_role_of, @discount)
         expect(result).to eq Authorizable::Model::IS_UNRELATED
       end
 
       it 'is unrelated' do
-        result = @unrelated.send(:get_ownership_status_of, @discount)
+        result = @unrelated.send(:get_role_of, @discount)
         expect(result).to eq Authorizable::Model::IS_UNRELATED
       end
     end
@@ -145,12 +145,47 @@ describe Authorizable::Model, type: :model do
     end
   end
 
-  describe "value_from_permission_cache" do
+  context 'cache' do
 
+    before(:each) do
+      @user = create(:user)
+    end
+
+    describe "value_from_permission_cache" do
+      before(:each) do
+        @user.instance_variable_set(
+          '@permission_cache',
+          {
+            1 => { role: true },
+            roleless: true
+          }
+        )
+      end
+
+      it 'gets a value for a non-role-based permission' do
+        expect(@user.send(:value_from_permission_cache, :roleless)).to eq true
+      end
+
+      it 'gets a value for a role-based permission' do
+        expect(@user.send(:value_from_permission_cache, :role, 1)).to eq true
+      end
+    end
+
+    describe "set_permission_cache" do
+      it 'sets a role-based permission' do
+        @user.send(:set_permission_cache, name: :permission_name, role: 1, value: true)
+        cache = @user.instance_variable_get('@permission_cache')
+
+        expect(cache[1]).to be_present
+        expect(cache[1][:permission_name]).to eq true
+      end
+
+      it 'sets a non-role-based permission' do
+        @user.send(:set_permission_cache, name: :permission_name, value: true)
+        cache = @user.instance_variable_get('@permission_cache')
+
+        expect(cache[:permission_name]).to eq true
+      end
+    end
   end
-
-  describe "set_permission_cache" do
-
-  end
-
 end

@@ -36,10 +36,10 @@ module Authorizable
       # default to allow
       result = true
 
-      ownership_status = get_ownership_status_of(o)
+      role = get_role_of(o)
 
       # don't perform the permission evaluation, if we have already computed it
-      permission_value_from_cache = value_from_permission_cache(method_name, ownership_status)
+      permission_value_from_cache = value_from_permission_cache(method_name, role)
       return permission_value_from_cache if permission_value_from_cache.present?
 
 
@@ -48,33 +48,33 @@ module Authorizable
         result &= proc.call(o, self)
       end
 
-      if ownership_status == IS_UNRELATED &&
+      if role == IS_UNRELATED &&
           (o.is_a?(Event) )
 
         collaboration = o.collaborations.where(user_id: self.id).first
-        result &= can?(permission, ownership_status, collaboration.permissions)
+        result &= can?(permission, role, collaboration.permissions)
       else
-        result &= can?(permission, ownership_status)
+        result &= can?(permission, role)
       end
 
       set_permission_cache(
         name: method_name,
         value: result,
-        ownership_status: ownership_status
+        role: role
       )
 
       result
     end
 
     # set is a hash of string keys and values
-    def can?(permission, ownership_status = IS_OWNER, set = {})
+    def can?(permission, role = IS_OWNER, set = {})
       result = true
       use_default = false
 
       use_default = true if set[permission].nil?
 
       if use_default
-        result &= PermissionUtilities.value_for(permission, ownership_status)
+        result &= PermissionUtilities.value_for(permission, role)
       else
         result &= set[permission]
       end
@@ -82,7 +82,7 @@ module Authorizable
       result
     end
 
-    def get_ownership_status_of(object)
+    def get_role_of(object)
       if object.is_a?(Event)
         return collaborator_or_owner(object)
       else
@@ -127,22 +127,22 @@ module Authorizable
     #   },
     #   authorization_permission_name: true
     # }
-    def value_from_permission_cache(permission_name, ownership_status = nil)
+    def value_from_permission_cache(permission_name, role = nil)
       @permission_cache ||= {}
 
-      if ownership_status
-        @permission_cache[ownership_status] ||= {}
-        @permission_cache[ownership_status][permission_name]
+      if role
+        @permission_cache[role] ||= {}
+        @permission_cache[role][permission_name]
       else
         @permission_cache[permission_name]
       end
     end
 
-    def set_permission_cache(name: "", ownership_status: nil, value: nil)
+    def set_permission_cache(name: "", role: nil, value: nil)
       @permission_cache ||= {}
-      if ownership_status
-        @permission_cache[ownership_status] ||= {}
-        @permission_cache[ownership_status][name] = value
+      if role
+        @permission_cache[role] ||= {}
+        @permission_cache[role][name] = value
       else
         @permission_cache[name] = value
       end
