@@ -71,12 +71,12 @@ module Authorizable
       result = true
       use_default = false
 
-      use_default = true if set[permission.to_s].nil?
+      use_default = true if set[permission].nil?
 
       if use_default
         result &= PermissionUtilities.value_for(permission, ownership_status)
       else
-        result &= set[permission.to_s]
+        result &= set[permission]
       end
 
       result

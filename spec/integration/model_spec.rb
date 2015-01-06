@@ -27,10 +27,21 @@ describe Authorizable::Model, type: :model do
     end
 
     it 'sets cache' do
-
+      expect(@user).to receive(:set_permission_cache).and_call_original
+      @user.can_view_collaborators?(@event)
+      cache = @user.instance_variable_get("@permission_cache")
+      expect(cache[Authorizable::Model::IS_OWNER]).to have_key(:can_view_collaborators?)
     end
 
     it 'returns from cache' do
+      # call once - store cache
+      @user.can_view_collaborators?(@event)
+      cache = @user.instance_variable_get("@permission_cache")
+      expect(cache[Authorizable::Model::IS_OWNER]).to have_key(:can_view_collaborators?)
+
+      # call again, return from cache
+      expect(@user).to_not receive(:set_permission_cache)
+      @user.can_view_collaborators?(@event)
 
     end
   end
@@ -44,7 +55,7 @@ describe Authorizable::Model, type: :model do
 
     it 'gets the value from a pre-defined set' do
       key = Authorizable.definitions.keys.first
-      result = @user.send(:can?, key, Authorizable::Model::IS_OWNER, { key.to_s => false } )
+      result = @user.send(:can?, key, Authorizable::Model::IS_OWNER, { key => false } )
       expect(result).to eq false
     end
   end
