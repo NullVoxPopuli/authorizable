@@ -48,15 +48,12 @@ module Authorizable
         result &= proc.call(o, self)
       end
 
-      if role == IS_UNRELATED &&
-          (o.is_a?(Event) )
+      # Here is where the addition of adding collaborations may reside
 
-        collaboration = o.collaborations.where(user_id: self.id).first
-        result &= can?(permission, role, collaboration.permissions)
-      else
-        result &= can?(permission, role)
-      end
+      # finally, determine if the user (self) can do the requested action
+      result &= can?(permission, role)
 
+      # so we don't need to do everything again
       set_permission_cache(
         name: method_name,
         value: result,
@@ -66,7 +63,11 @@ module Authorizable
       result
     end
 
-    # set is a hash of string keys and values
+    # @param [String] permission name of the permission
+    # @param [Number] role role of the user
+    # @param [Hash] set a hash of string keys and values
+    # @return [Boolean] the result of the whether or not the user, self,
+    #   is allowed to perform the action
     def can?(permission, role = IS_OWNER, set = {})
       result = true
       use_default = false
@@ -82,28 +83,30 @@ module Authorizable
       result
     end
 
+    # By default this will just be a pass-through to has_role_with
+    # This method is intended to be a part of a group/role implementation.
+    # for example, if working with a hierarchy of objects, such as a
+    # Book having many chapters, and the chapters themselves don't have a User
+    # but the Book does, that logic should be added in a method that overrides this one.
+    #
+    # @param [ActiveRecord::Base] object should be the object that is being tested
+    #   if the user can perform the action on
     def get_role_of(object)
-      if object.is_a?(Event)
-        return collaborator_or_owner(object)
-      else
-        object = (
-          object.event
-        )
-        return collaborator_or_owner(object)
-      end
+      return has_role_with(object)
     end
 
-    # object should only be an Event or Organization
-    def collaborator_or_owner(object)
+    # This method can also be overridden if one desires to have multiple types of
+    # ownership, such as a collaborator-type relationship
+    #
+    # @param [ActiveRecord::Base] object should be the object that is being tested
+    #   if the user can perform the action on
+    # @return [Number] true if self owns object
+    def has_role_with(object)
       if object.respond_to?(:user_id)
         if object.user_id == self.id
           return IS_OWNER
         else
-          if object.respond_to?(:collaborators)
-            if object.collaborator_ids.include?(self.id)
-              return IS_UNRELATED
-            end
-          end
+          return IS_UNRELATED
         end
       end
       # hopefully the object passed always responds to user_id
@@ -121,23 +124,16 @@ module Authorizable
     #
     # the structure of this cache is the following:
     # {
-    #   object_access_permission_name: {
-    #     relationship1: true
-    #     relationship2: false
+    #   role_1: {
+    #     permission1: true
+    #     permission2: false
     #   },
     #   authorization_permission_name: true
     # }
-    def value_from_permission_cache(permission_name, role = nil)
-      @permission_cache ||= {}
-
-      if role
-        @permission_cache[role] ||= {}
-        @permission_cache[role][permission_name]
-      else
-        @permission_cache[permission_name]
-      end
-    end
-
+    #
+    # @param [String] name name of the permission
+    # @param [Number] role role of the user
+    # @param [Boolean] value
     def set_permission_cache(name: "", role: nil, value: nil)
       @permission_cache ||= {}
       if role
@@ -148,6 +144,19 @@ module Authorizable
       end
     end
 
+    # @param [String] permission_name name of the permission
+    # @param [Number] role role of the user
+    # @return [Boolean] value of the previously stored permission
+    def value_from_permission_cache(permission_name, role = nil)
+      @permission_cache ||= {}
+
+      if role
+        @permission_cache[role] ||= {}
+        @permission_cache[role][permission_name]
+      else
+        @permission_cache[permission_name]
+      end
+    end
 
   end
 end

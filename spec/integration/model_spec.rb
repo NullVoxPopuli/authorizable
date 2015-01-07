@@ -88,61 +88,28 @@ describe Authorizable::Model, type: :model do
         expect(result).to eq Authorizable::Model::IS_UNRELATED
       end
     end
-
-    context 'child object' do
-      before(:each) do
-        @event = create(:event, user: @user)
-        @discount = create(:discount, event: @event)
-      end
-
-      it 'is owner' do
-        result = @user.send(:get_role_of, @discount)
-        expect(result).to eq Authorizable::Model::IS_OWNER
-      end
-
-      it 'is collaborator' do
-        @event.collaborators << @collaborator
-        @event.save
-        result = @collaborator.send(:get_role_of, @discount)
-        expect(result).to eq Authorizable::Model::IS_UNRELATED
-      end
-
-      it 'is unrelated' do
-        result = @unrelated.send(:get_role_of, @discount)
-        expect(result).to eq Authorizable::Model::IS_UNRELATED
-      end
-    end
   end
 
-  describe "collaborator_or_owner" do
+  describe "has_role_with" do
 
-    context 'event' do
-      before(:each) do
-        @event = create(:event, user: @user)
-      end
-
-      context 'owner' do
-
-        it 'event' do
-          result = @user.send(:collaborator_or_owner, @event)
-          expect(result).to eq Authorizable::Model::IS_OWNER
-        end
-
-      end
-
-      context 'collaborator' do
-        before(:each) do
-          @user2 = create(:user)
-          @event.collaborators << @user2
-          @event.save
-        end
-
-        it 'is an owner' do
-          result = @user2.send(:collaborator_or_owner, @event)
-          expect(result).to eq Authorizable::Model::IS_UNRELATED
-        end
-      end
+    it 'is the owner' do
+      @event = create(:event, user: @user)
+      result = @user.send(:has_role_with, @event)
+      expect(result).to eq Authorizable::Model::IS_OWNER
     end
+
+    it 'is not the owner' do
+      user = create(:user)
+      @event = create(:event, user: @user)
+      result = user.send(:has_role_with, @event)
+      expect(result).to eq Authorizable::Model::IS_UNRELATED
+    end
+
+    it 'object does not respond to user_id' do
+      result = @user.send(:has_role_with, 3)
+      expect(result).to eq Authorizable::Model::IS_UNRELATED
+    end
+
   end
 
   context 'cache' do
@@ -156,35 +123,35 @@ describe Authorizable::Model, type: :model do
         @user.instance_variable_set(
           '@permission_cache',
           {
-            1 => { role: true },
-            roleless: true
+            1 => { "role" => true },
+            "roleless" => true
           }
         )
       end
 
       it 'gets a value for a non-role-based permission' do
-        expect(@user.send(:value_from_permission_cache, :roleless)).to eq true
+        expect(@user.send(:value_from_permission_cache, "roleless")).to eq true
       end
 
       it 'gets a value for a role-based permission' do
-        expect(@user.send(:value_from_permission_cache, :role, 1)).to eq true
+        expect(@user.send(:value_from_permission_cache, "role", 1)).to eq true
       end
     end
 
     describe "set_permission_cache" do
       it 'sets a role-based permission' do
-        @user.send(:set_permission_cache, name: :permission_name, role: 1, value: true)
+        @user.send(:set_permission_cache, name: "permission_name", role: 1, value: true)
         cache = @user.instance_variable_get('@permission_cache')
 
         expect(cache[1]).to be_present
-        expect(cache[1][:permission_name]).to eq true
+        expect(cache[1]["permission_name"]).to eq true
       end
 
       it 'sets a non-role-based permission' do
-        @user.send(:set_permission_cache, name: :permission_name, value: true)
+        @user.send(:set_permission_cache, name: "permission_name", value: true)
         cache = @user.instance_variable_get('@permission_cache')
 
-        expect(cache[:permission_name]).to eq true
+        expect(cache["permission_name"]).to eq true
       end
     end
   end
