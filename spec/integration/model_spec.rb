@@ -21,6 +21,17 @@ describe Authorizable::Model, type: :model do
       expect(result).to eq true
     end
 
+    it 'allows permission short hand' do
+      result = @user.can_edit?(@event)
+      expect(result).to eq true
+    end
+
+    it 'calls super if method does not match permission pattern' do
+      expect{
+        @user.do_something
+      }.to raise_error(NoMethodError)
+    end
+
     it 'disallows a permission' do
       result = @collaborator.can_view_collaborators?(@event)
       expect(result).to eq false
