@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe Authorizable::PermissionUtilities do
-  let(:util){Authorizable::PermissionUtilities}
+  let(:util){ Authorizable::PermissionUtilities }
 
   describe 'permissions' do
     it 'mirrors the source definitions' do
       Authorizable::Permissions.definitions = 'test'
-      expect(Authorizable::PermissionUtilities.permissions).to eq(Authorizable::Permissions.definitions)
+      expect(util.permissions).to eq(Authorizable::Permissions.definitions)
     end
   end
 
@@ -20,7 +20,7 @@ describe Authorizable::PermissionUtilities do
     end
 
     it 'generates a hash for a particular role' do
-      set = Authorizable::PermissionUtilities.set_for_role(1)
+      set = util.set_for_role(1)
 
       expect(set[:one]).to eq true
       expect(set[:two]).to eq false
@@ -28,7 +28,7 @@ describe Authorizable::PermissionUtilities do
     end
 
     it 'generates a hash for the default role' do
-      set = Authorizable::PermissionUtilities.set_for_role(0)
+      set = util.set_for_role(0)
 
       expect(set[:one]).to eq true
       expect(set[:two]).to eq true
@@ -45,13 +45,13 @@ describe Authorizable::PermissionUtilities do
     end
 
     it 'has procs' do
-      result = Authorizable::PermissionUtilities.has_procs?(:procs)
+      result = util.has_procs?(:procs)
       expect(result).to_not eq false
       expect(result).to be_kind_of Proc
     end
 
     it 'does not have procs' do
-      result = Authorizable::PermissionUtilities.has_procs?(:no_procs)
+      result = util.has_procs?(:no_procs)
       expect(result).to eq false
     end
   end
@@ -65,13 +65,13 @@ describe Authorizable::PermissionUtilities do
     end
 
     it 'has procs' do
-      result = Authorizable::PermissionUtilities.has_visibility_procs?(:procs)
+      result = util.has_visibility_procs?(:procs)
       expect(result).to_not eq false
       expect(result).to be_kind_of Proc
     end
 
     it 'does not have procs' do
-      result = Authorizable::PermissionUtilities.has_visibility_procs?(:no_procs)
+      result = util.has_visibility_procs?(:no_procs)
       expect(result).to eq false
     end
   end
@@ -85,12 +85,12 @@ describe Authorizable::PermissionUtilities do
     end
 
     it 'should render' do
-      result = Authorizable::PermissionUtilities.should_render?(:show)
+      result = util.should_render?(:show)
       expect(result).to eq true
     end
 
     it 'should not render' do
-      result = Authorizable::PermissionUtilities.should_render?(:dont_show)
+      result = util.should_render?(:dont_show)
       expect(result).to eq false
     end
   end
