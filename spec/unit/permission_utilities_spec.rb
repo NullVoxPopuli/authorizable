@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Authorizable::PermissionUtilities do
+  let(:util){Authorizable::PermissionUtilities}
 
   describe 'permissions' do
     it 'mirrors the source definitions' do
@@ -94,23 +95,63 @@ describe Authorizable::PermissionUtilities do
     end
   end
 
-  describe 'name_for' do
+  context 'quick info' do
+    before(:each) do
+      Authorizable::Permissions.definitions = {
+        access: [Authorizable::Permissions::ACCESS, true, "Is Access", ->{ false }],
+        object: [Authorizable::Permissions::OBJECT, [false, true], ""]
+      }
+    end
 
-  end
+    describe 'description_for' do
+      it 'has a description' do
+        expect(util.description_for(:access)).to eq "Is Access"
+      end
 
-  describe 'value_for' do
+      it 'does not have a descirption' do
+        expect(util.description_for(:object)).to eq "Object"
+      end
+    end
 
-  end
+    describe 'value_for' do
+      it 'has a role' do
+        expect(util.value_for(:object, 1)).to eq true
+      end
 
-  describe 'has_key?' do
+      it 'does not have a role' do
+        expect(util.value_for(:access)).to eq true
+      end
+    end
 
-  end
+    describe 'has_key?' do
+      it 'exists' do
+        expect(util.has_key?(:object)).to eq true
+      end
 
-  describe 'is_access?' do
+      it 'non exists' do
+        expect(util.has_key?(:non_existant)).to eq false
+      end
+    end
 
-  end
+    describe 'is_access?' do
+      it 'is access' do
+        expect(util.is_access?(:access)).to eq true
+      end
 
-  describe 'is_object?' do
+      it 'is not access' do
+        expect(util.is_access?(:object)).to eq false
+      end
+    end
+
+    describe 'is_object?' do
+      it 'is object' do
+        expect(util.is_object?(:object)).to eq true
+      end
+
+      it 'is not object' do
+        expect(util.is_object?(:access)).to eq false
+      end
+    end
 
   end
 end

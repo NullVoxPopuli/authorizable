@@ -10,6 +10,7 @@ module Authorizable
 
     OBJECT = 0
     ACCESS = 1
+    DEFAULT_ROLE = 0
 
     def self.permissions
       Authorizable::Permissions.definitions
@@ -43,17 +44,17 @@ module Authorizable
       result
     end
 
-    def self.name_for(permission)
+    def self.description_for(permission)
       result = permission_data_helper(permission.to_sym, DESCRIPTION)
 
-      if !result
+      if result.blank?
         result = permission.to_s.humanize
       end
 
       result
     end
 
-    def self.value_for(permission, role)
+    def self.value_for(permission, role = DEFAULT_ROLE)
       value = permissions[permission.to_sym][DEFAULT_ACCESS]
       value.is_a?(Array) ? value[role] : value
     end
