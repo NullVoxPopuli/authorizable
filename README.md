@@ -4,9 +4,11 @@ authorizable
 A gem for rails giving vast flexibility in authorization management.
 
 [![docs](https://img.shields.io/badge/docs-yardoc-blue.svg?style=flat-square)](http://www.rubydoc.info/github/NullVoxPopuli/authorizable)
+[![Gem Version](http://img.shields.io/gem/v/authorizable.svg?style=flat-square)](http://badge.fury.io/rb/authorizable)
 [![Build Status](http://img.shields.io/travis/NullVoxPopuli/authorizable.svg?style=flat-square)](https://travis-ci.org/NullVoxPopuli/authorizable)
 [![Code Climate](http://img.shields.io/codeclimate/github/NullVoxPopuli/authorizable.svg?style=flat-square)](https://codeclimate.com/github/NullVoxPopuli/authorizable)
 [![Test Coverage](http://img.shields.io/codeclimate/coverage/github/NullVoxPopuli/authorizable.svg?style=flat-square)](https://codeclimate.com/github/NullVoxPopuli/authorizable)
+[![Dependency Status](http://img.shields.io/gemnasium/NullVoxPopuli/authorizable.svg?style=flat-square)](https://gemnasium.com/NullVoxPopuli/authorizable)
 
 
 ## Features
