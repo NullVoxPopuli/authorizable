@@ -1,15 +1,7 @@
-GIT
-  remote: https://github.com/codeclimate/ruby-test-reporter.git
-  revision: 7eeff8c596b1b540cb7ff004b93053265e4d8be5
-  branch: check_git_dir
-  specs:
-    codeclimate-test-reporter (0.4.4)
-      simplecov (>= 0.7.1, < 1.0.0)
-
 PATH
   remote: .
   specs:
-    authorizable (0.9.0)
+    authorizable (0.9.1)
       activesupport (>= 3.0.0)
       i18n
 
@@ -58,6 +50,8 @@ GEM
       columnize (~> 0.8)
       debugger-linecache (~> 1.2)
       slop (~> 3.6)
+    codeclimate-test-reporter (0.4.5)
+      simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
     columnize (0.9.0)
     debugger-linecache (1.2.0)
@@ -169,7 +163,7 @@ DEPENDENCIES
   authorizable!
   awesome_print
   bundler
-  codeclimate-test-reporter!
+  codeclimate-test-reporter
   factory_girl_rails (~> 4.4)
   pry-byebug
   rails (>= 4)
