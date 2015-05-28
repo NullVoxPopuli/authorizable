@@ -9,7 +9,6 @@ ENV['CODECLIMATE_REPO_TOKEN'] = "68f28e1d037ca7b58d24f943b59d82cd649e1f9b9f79437
 CodeClimate::TestReporter.start
 
 require 'rspec/autorun'
-require 'factory_girl'
 
 # This Gem
 require "authorizable"
@@ -17,6 +16,9 @@ require "authorizable"
 Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each {|file|
   # skip the dummy app
   next if file.include?('support/rails_app')
+  next if file.include?('factory_girl')
+  next if file.include?('factories')
+  
   require file
 }
 

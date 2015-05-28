@@ -64,6 +64,12 @@ will create a permission definition called `edit_event` with an additional condi
 
 This is how Authorizable references the permission definitions internally, just as raw permission: definition sets. Note that `Authorizable::Permissions.set` overrides the definitions list each time.
 
+### Handling Controller Authorization
+
+### Error In the Controller
+
+
+
 ### Customizing roles
 
 coming soon...

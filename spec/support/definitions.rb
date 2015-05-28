@@ -12,5 +12,7 @@ $example_definitions = ->{
     can :edit_event
     can :delete_event
     can :not_do_this, false
+    can :always_deny, false
+    can :always_allow, true
   end
 }

@@ -1,6 +1,8 @@
 en:
   authorizable:
+    permission_not_found: "The permission was not found. Perhaps it is misspelled?"
     redirect_path_must_be_proc: ":redirect_path must be a proc"
     redirect_path_required: ":redirect_path is required"
     permission_required: ":permission is required when :target is omitted"
     not_authorized: You do not have permission to do that
+    error: An error has occurred

@@ -63,6 +63,10 @@ module Authorizable
       permissions[permission.to_sym].present?
     end
 
+    def self.exists?(permission)
+      self.has_key?(permission)
+    end
+
     def self.is_access?(permission)
       permissions[permission][KIND] == ACCESS
     end

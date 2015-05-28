@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = Authorizable::VERSION
   s.platform    = Gem::Platform::RUBY
   s.license     = "MIT"
-  s.authors     = ["L. Preston Sego III"]
+  s.authors     = ["L. Preston Sego III", "Ryan Bates"]
   s.email       = "LPSego3+dev@gmail.com"
   s.homepage    = "https://github.com/NullVoxPopuli/authorizable"
   s.summary     = "Authorizable-#{Authorizable::VERSION}"
