@@ -136,17 +136,20 @@ module Authorizable
         if !settings[:target]
           # permission is required
           if !settings[:permission]
-            raise ArgumentError.new(I18n.t('authorizable.permission_required'))
+            raise Authorizable::Error::ControllerConfigInvalid.new(
+              message: I18n.t('authorizable.permission_required'))
           end
         end
 
         # redirect_path is always required
         redirect_path = settings[:redirect_path]
         if !redirect_path
-          raise ArgumentError.new(I18n.t('authorizable.redirect_path_required'))
+          raise Authorizable::Error::ControllerConfigInvalid.new(
+            message: I18n.t('authorizable.redirect_path_required'))
         else
           if !redirect_path.is_a?(Proc)
-            raise ArgumentError.new(I18n.t("authorizable.redirect_path_must_be_proc"))
+            raise Authorizable::Error::ControllerConfigInvalid.new(
+              message: I18n.t("authorizable.redirect_path_must_be_proc"))
           end
         end
       end

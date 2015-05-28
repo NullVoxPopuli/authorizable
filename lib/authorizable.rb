@@ -3,6 +3,7 @@ require 'active_support'
 require 'action_controller'
 
 require 'authorizable/error/authorizable_error'
+require 'authorizable/error/controller_config_invalid'
 require 'authorizable/error/not_authorized'
 require 'authorizable/error/permission_not_found'
 require 'authorizable/cache'

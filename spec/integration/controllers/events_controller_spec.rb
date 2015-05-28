@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+# this is for testing customizable functionality
+# in controllers
 describe EventsController, type: :controller do
 
   it 'includes authorizable' do
@@ -10,6 +12,55 @@ describe EventsController, type: :controller do
     allow_any_instance_of(EventsController).to receive(:authorizable)
     get :index
   end
+
+  context 'configuration must be valid' do
+
+    it 'validates the configuration parameters' do
+      expect{
+        EventsController.send(
+          :authorizable,
+          edit: {
+            target: :event,
+            redirect_path: Proc.new{ event_path(@event) }
+          }
+        )
+      }.to_not raise_error
+    end
+
+    it 'requires redirect path' do
+      expect{
+        EventsController.send(
+          :authorizable,
+          edit: {
+            target: :event,
+          }
+        )
+      }.to raise_error(Authorizable::Error::ControllerConfigInvalid)
+    end
+
+    it 'redirct path must be a proc' do
+      expect{
+        EventsController.send(
+          :authorizable,
+          edit: {
+            target: :event,
+            redirect_path: "url"
+          }
+        )
+      }.to raise_error(Authorizable::Error::ControllerConfigInvalid)
+    end
+
+    it 'requires a target' do
+      expect{
+        EventsController.send(
+          :authorizable,
+          edit: {}
+        )
+      }.to raise_error(Authorizable::Error::ControllerConfigInvalid)
+    end
+
+  end
+
 
   context 'actions' do
     before(:each) do
