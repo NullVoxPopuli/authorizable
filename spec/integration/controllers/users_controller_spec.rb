@@ -10,11 +10,15 @@ describe UsersController, type: :controller do
 
   context 'actions' do
 
+    before(:each) do
+      allow(controller).to receive(:current_user){ create(:user) }
+    end
+
     context 'index' do
 
       it 'allows' do
         Authorizable::Permissions.class_eval {
-          can :view_users, true
+          can :view_all_users, true
         }
 
         get :index
@@ -23,12 +27,12 @@ describe UsersController, type: :controller do
 
       it 'denies' do
         Authorizable::Permissions.class_eval {
-          can :view_users, false
+          can :view_all_users, false
         }
 
         get :index
         expect(response).to be_redirect
-        expect(flash[:notice]).to be_present
+        expect(flash[:alert]).to be_present
       end
 
     end

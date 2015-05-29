@@ -15,10 +15,16 @@ module Authorizable
     IS_UNRELATED = 1
 
     def can?(permission_name, *args)
-      unless util.exists?(permission_name)
+      # object; Event, Discount, etc
+      object = args[0]
+      # convert permission to full name, if needed
+      permission = full_permission_name(permission_name, object)
+
+      # halt if the permission doesn't exist
+      unless util.exists?(permission)
         raise Authorizable::Error::PermissionNotFound.new(action: permission_name, subject: args[0])
       end
-      process_permission(permission_name, *args)
+      process_permission(permission, *args)
     end
 
     private
@@ -46,11 +52,7 @@ module Authorizable
 
     # checks if the permission has already been calculated
     # otherwise the permission needs to be evaluated
-    def process_permission(permission_name, *args)
-      # object; Event, Discount, etc
-      o = args[0]
-      # convert permission to full name, if needed
-      permission = full_permission_name(permission_name, o)
+    def process_permission(permission, *args)
       cached = value_from_cache(permission, *args)
 
       if cached.nil?

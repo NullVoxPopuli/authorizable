@@ -86,7 +86,7 @@ describe EventsController, type: :controller do
       let(:event){ create(:event, user: user) }
 
       it 'is allowed' do
-        expect(controller).to receive(:authorizable_authorized?)
+        expect(controller).to receive(:is_authorized_for_action?)
         get :edit, id: event.id
         expect(assigns(:event)).to eq event
       end

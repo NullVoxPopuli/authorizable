@@ -2,22 +2,36 @@ module Authorizable
   module Controller
     module DefaultConfig
 
-      index_config = {
-        permission: :view_all
-        redirect_path: Proc.new{ root_path }
-      }
+      def self.index_config
+        {
+          permission: :view_all_users,
+          redirect_path: Proc.new{ root_path }
+        }
+      end
 
-      create_config = {
-        redirect_path: Proc.new{ action: :index }
-      }
+      def self.create_config
+        {
+          redirect_path: ->{ {action: :index} }
+        }
+      end
 
-      edit_config = {
-        redirect_path: Proc.new{ action: :index }
-      }
+      def self.edit_config
+        {
+          redirect_path: ->{ {action: :index} }
+        }
+      end
 
-      update_config = edit_config
+      def self.update_config
+        edit_config
+      end
 
-      destroy_config = {}
+      def self.destroy_config
+        {}
+      end
+
+       def self.show_config
+         {}
+       end
 
       def self.config
         {

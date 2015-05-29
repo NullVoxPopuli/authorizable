@@ -13,9 +13,9 @@ module Authorizable
 
     private
 
-    def authorizable_authorized?
-      result = false
+    def is_authorized_for_action?
       action = params[:action].to_sym
+      self.class.authorizable_config ||= DefaultConfig.config
 
       if !self.class.authorizable_config[action]
         action = Authorizable::Controller.alias_action(action)
@@ -23,27 +23,27 @@ module Authorizable
 
       settings_for_action = self.class.authorizable_config[action]
 
-      return true unless settings_for_action.present?
+      is_authorized_for_action_with_config?(action, settings_for_action)
+    end
+
+    def is_authorized_for_action_with_config?(action, config)
+      request_may_proceed = false
+      return true unless config.present?
 
       defaults = {
         user: current_user,
-        permission: "can_#{action.to_s}?",
+        permission: action.to_s,
         message: I18n.t('authorizable.not_authorized'),
         flash_type: :alert
       }
 
-      options = defaults.merge(settings_for_action)
+      options = defaults.merge(config)
 
       # run permission
-      if options[:target]
-        object = instance_variable_get("@#{options[:target]}")
-        result = options[:user].send(options[:permission], object)
-      else
-        result = options[:user].send(options[:permission])
-      end
+      request_may_proceed = evaluate_action_permission(options)
 
       # redirect
-      unless result
+      unless request_may_proceed
         authorizable_respond_with(
           options[:flash_type],
           options[:message],
@@ -54,8 +54,22 @@ module Authorizable
         return false
       end
 
-      # proceed with execution
+      # proceed with request execution
       true
+    end
+
+    # run the permission
+    def evaluate_action_permission(options)
+      # the target is the @resource
+      # (@event, @user, @page, whatever)
+      # it must exist in order to perform a permission check
+      # involving the object
+      if options[:target]
+        object = instance_variable_get("@#{options[:target]}")
+        return options[:user].can?(options[:permission], object)
+      else
+        return options[:user].can?(options[:permission])
+      end
     end
 
 
@@ -64,7 +78,10 @@ module Authorizable
 
       respond_to do |format|
         format.html{
-          path = self.instance_eval(&path)
+          # instance_eval(&proc) evaluates the proc in
+          # this scope, rather than the scope that the proc
+          # was defined in
+          path = path.is_a?(Proc) ? instance_eval(&path) : path
           redirect_to path
         }
         format.json{

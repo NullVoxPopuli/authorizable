@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
+  # from Authorizable::Controller
+  before_action :is_authorized_for_action?
+
   # GET /users
   def index
     @users = User.all

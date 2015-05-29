@@ -34,12 +34,12 @@ module Authorizable
       # @option action [String] :message (I18n.t('authorizable.not_authorized'))
       #   message to display as a flash message upon an unauthorized attempt
       # @option action [Symbol] :flash_type (:alert) what flash type to use for displaying the :message
-      def authorizable(config = {})
+      def authorizable(config = DefaultConfig)
         Authorizable::Controller.parameters_are_valid?(config)
 
         self.authorizable_config = config
 
-        self.send(:before_filter, :authorizable_authorized?)
+        self.send(:before_filter, :is_authorized_for_action?)
       end
     end
   end
