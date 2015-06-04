@@ -14,6 +14,9 @@ module Authorizable
     private
 
     # check if the resource can perform the action
+    #
+    # @return [Boolean] the result of the permission evaluation
+    #  will halt controller flow
     def is_authorized_for_action?
       action = params[:action].to_sym
       self.class.authorizable_config ||= DefaultConfig.config
@@ -29,6 +32,10 @@ module Authorizable
 
     # check if the resource can perform the action and respond
     # according to the specefied config
+    #
+    # @param [Symbol] action the current controller action
+    # @param [Hash] config the configuration for what to do with the given action
+    # @return [Boolean] the result of the permission evaluation
     def is_authorized_for_action_with_config?(action, config)
       request_may_proceed = false
       return true unless config.present?
@@ -37,7 +44,7 @@ module Authorizable
         user: current_user,
         permission: action.to_s,
         message: I18n.t('authorizable.not_authorized'),
-        flash_type: :alert
+        flash_type: Authorizable.configuration.flash_error
       }
 
       options = defaults.merge(config)
@@ -62,6 +69,9 @@ module Authorizable
     end
 
     # run the permission
+    #
+    # @param [Hash] options the data for the permission
+    # @return [Boolean] the result of the permission
     def evaluate_action_permission(options)
       # the target is the @resource
       # (@event, @user, @page, whatever)
@@ -76,7 +86,10 @@ module Authorizable
     end
 
 
-    def authorizable_respond_with(flash_type, message, path)
+    # @param [Symbol] flash_type the kind of flash message to be displayed
+    # @param [String] message the message to display in the flash message
+    # @param [Proc|String] path the redirect path if the request is html
+    def authorizable_respond_with(flash_type, message, path = "")
       flash[flash_type] = message
 
       respond_to do |format|

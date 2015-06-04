@@ -3,6 +3,7 @@ require 'active_support'
 require 'action_controller'
 require 'active_support/i18n'
 
+require 'authorizable/configuration'
 require 'authorizable/error/authorizable_error'
 require 'authorizable/error/controller_config_invalid'
 require 'authorizable/error/not_authorized'
@@ -30,9 +31,34 @@ module Authorizable
   OBJECT = PermissionUtilities::OBJECT
   ACCESS = PermissionUtilities::ACCESS
 
+  class << self
+    attr_writer :configuration
+  end
+
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
+
+  # to configure Authorizable:
+  # in an initializer, you may want to do something like:
+  #
+  #    Authorizable.configure do |config|
+  #      config.flash_error = :alert
+  #      config.flash_ok    = :notice
+  #    end
+  #
+  def self.configure
+    yield(configuration)
+  end
+
+  def self.reset_config!
+    @configuration = nil
+  end
+
   def self.definitions
     Authorizable::Permissions.definitions || {}
   end
+
 end
 
 # add authorizable method to ActionController
