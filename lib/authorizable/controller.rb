@@ -15,6 +15,8 @@ module Authorizable
 
     # check if the resource can perform the action
     #
+    # @raise [Authorizable::Error::NotAuthorized] if configured to raise
+    #   exception instead of handle the errors
     # @return [Boolean] the result of the permission evaluation
     #  will halt controller flow
     def is_authorized_for_action?
@@ -25,9 +27,22 @@ module Authorizable
         action = Authorizable::Controller.alias_action(action)
       end
 
+      # retrieve the settings for this particular controller action
       settings_for_action = self.class.authorizable_config[action]
 
-      is_authorized_for_action_with_config?(action, settings_for_action)
+      # continue with evaluation
+      result = is_authorized_for_action_with_config?(action, settings_for_action)
+
+      # if we are configured to raise exception instead of handle the error
+      # ourselves, raise the exception!
+      if Authorizable.configuration.raise_exception_on_denial? and !result
+        raise Authorizable::Error::NotAuthorized.new(
+          action: action,
+          subject: params[:controller]
+        )
+      end
+
+      result
     end
 
     # check if the resource can perform the action and respond

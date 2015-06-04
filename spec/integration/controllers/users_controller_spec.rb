@@ -14,6 +14,46 @@ describe UsersController, type: :controller do
       allow(controller).to receive(:current_user){ create(:user) }
     end
 
+    context 'configuration behavior' do
+      after(:each) do
+        Authorizable.reset_config!
+      end
+
+      context 'unauthorized' do
+
+        before(:each) do
+          Authorizable::Permissions.class_eval {
+            can :view_all_users, false
+          }
+        end
+
+        it 'raises an exception' do
+          Authorizable.configure do |config|
+            config.raise_exception_on_denial = true
+          end
+
+          expect{
+            get :index
+          }.to raise_error(Authorizable::Error::NotAuthorized)
+        end
+
+        it 'uses a different flash type' do
+          Authorizable.configure do |config|
+            config.flash_error = :wut
+          end
+
+          get :index
+
+          expect(response).to be_redirect
+          expect(flash[:wut]).to be_present
+        end
+
+      end
+
+
+    end
+
+
     context 'index' do
 
       it 'allows' do

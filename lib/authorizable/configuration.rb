@@ -5,14 +5,16 @@ module Authorizable
     attr_accessor :flash_success
     attr_accessor :raise_exception_on_denial
 
+    alias_method :raise_exception_on_denial?, :raise_exception_on_denial
+
     # defaults
     #
     # these match up to css classes used in the
     # foundation framework
     def initialize
-      @flash_error                = :alert
-      @flash_ok                   = :notice
-      @flash_success              = :success
+      @flash_error               = :alert
+      @flash_ok                  = :notice
+      @flash_success             = :success
       @raise_exception_on_denial = false
     end
   end
