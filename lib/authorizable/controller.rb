@@ -13,6 +13,7 @@ module Authorizable
 
     private
 
+    # check if the resource can perform the action
     def is_authorized_for_action?
       action = params[:action].to_sym
       self.class.authorizable_config ||= DefaultConfig.config
@@ -26,6 +27,8 @@ module Authorizable
       is_authorized_for_action_with_config?(action, settings_for_action)
     end
 
+    # check if the resource can perform the action and respond
+    # according to the specefied config
     def is_authorized_for_action_with_config?(action, config)
       request_may_proceed = false
       return true unless config.present?
@@ -43,7 +46,7 @@ module Authorizable
       request_may_proceed = evaluate_action_permission(options)
 
       # redirect
-      unless request_may_proceed
+      unless request_may_proceed and request.format == :html
         authorizable_respond_with(
           options[:flash_type],
           options[:message],

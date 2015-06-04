@@ -3,8 +3,8 @@ require 'spec_helper'
 
 describe Authorizable::Proxy do
 
-  class DummyUser
-
+  class DummyUser;
+    def id; 0; end
   end
 
   let(:proxy){ Authorizable::Proxy.new(DummyUser.new) }
@@ -36,7 +36,8 @@ describe Authorizable::Proxy do
 
   describe '#can?' do
     it 'allows permission short hand' do
-      result = proxy.can?(:edit, @event)
+      event = Event.new
+      result = proxy.can?(:edit, event)
       expect(result).to eq true
     end
 

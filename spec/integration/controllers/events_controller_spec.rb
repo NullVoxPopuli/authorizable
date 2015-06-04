@@ -106,7 +106,7 @@ describe EventsController, type: :controller do
           allow(user).to receive(:can_edit?){ false }
           allow(controller).to receive(:current_user){ user }
 
-          get :edit, id: event, format: :json
+          get :edit, id: event.id, format: :json
         end
       end
 
@@ -120,7 +120,7 @@ describe EventsController, type: :controller do
 
         context 'edit' do
           before(:each) do
-            allow(user).to receive(:can_edit?){ false }
+            allow(user).to receive(:can?){ false }
             allow(controller).to receive(:current_user){ user }
           end
 
@@ -142,7 +142,7 @@ describe EventsController, type: :controller do
 
         context 'create' do
           before(:each) do
-            allow(user).to receive(:can_create_event?){ false }
+            allow(user).to receive(:can?){ false }
             allow(controller).to receive(:current_user){ user }
           end
 
@@ -162,7 +162,7 @@ describe EventsController, type: :controller do
 
         context 'destroy' do
           before(:each) do
-            allow(user).to receive(:can_destroy?).and_return(false)
+            allow(user).to receive(:can?).and_return(false)
             allow(controller).to receive(:current_user){ user }
           end
 

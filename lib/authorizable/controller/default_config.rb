@@ -26,12 +26,16 @@ module Authorizable
       end
 
       def self.destroy_config
-        {}
+        {
+          redirect_path: ->{ {action: :index} }
+        }
       end
 
-       def self.show_config
-         {}
-       end
+      def self.show_config
+       {
+         redirect_path: ->{ {action: :index} }
+       }
+      end
 
       def self.config
         {
