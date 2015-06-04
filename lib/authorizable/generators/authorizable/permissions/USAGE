@@ -1,0 +1,4 @@
+Description:
+  The authorizable:permissions generator creates a permissions file that can
+  be used to instantiate all the permissions for your app. This file can be
+  located anywhere in your app as long as it is in one of the load pathes.

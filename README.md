@@ -66,7 +66,17 @@ Available configuration options are:
         render :file => "#{Rails.root}/public/403.html", :status => 403, :layout => false
       end  
 
-### Defining permissions
+### Permissions
+
+#### Getting started
+
+You can generate a starting file with some examples by running the generator
+
+    rails g authorizable:permissions
+
+It will provide
+
+#### Defining Permissions
 
 There are a couple ways that permissions can be defined.
 
@@ -97,6 +107,8 @@ will create a permission definition called `edit_event` with an additional condi
 This is how Authorizable references the permission definitions internally, just as raw permission: definition sets. Note that `Authorizable::Permissions.set` overrides the definitions list each time.
 
 ### Handling Controller Authorization
+
+By default, this is handled for you. But if you set the `raise_exception_on_denial` option to true, then you can do some more customization of the error handling if you so desire.
 
 ### Error In the Controller
 
