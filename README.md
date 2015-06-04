@@ -34,6 +34,38 @@ Terminal
     gem install authorizable
 
 ## Configuration
+
+### Global Configuration
+
+Configuration can be handled in any of your environment.rb files or in an initializer via
+
+    Authorizable.configure do |config|
+      # example configuration option
+      config.flash_error = :error # default :alert
+    end
+
+Available configuration options are:
+
+- flash_error - `:alert`  
+  Used for the flash key whenever Authorizable renders an unauthorized flash message.
+- flash_ok - `:notice`  
+  Currently unused
+- flash_success - `:success`  
+  Currently unused
+- raise_exception_on_denial - `false`  
+  Instead of rendering or redirecting by default, an exception will be raised. `Authorizable::Error::NotAuthorized` will be thrown. Handling of the error may be
+  customized by calling `rescue_from` in your controller.
+
+      rescue_from Authorizable::Error::NotAuthorized do |exception|
+        redirect_to root_path, notice: "You can't do that, yo."
+      end
+
+  or if you want to render a static file
+
+      rescue_from Authorizable::Error::NotAuthorized do |exception|
+        render :file => "#{Rails.root}/public/403.html", :status => 403, :layout => false
+      end  
+
 ### Defining permissions
 
 There are a couple ways that permissions can be defined.
