@@ -102,9 +102,9 @@ module Authorizable
     private
 
     # @param [Symbol] key permission name
-    # @param [Array] array settings for permission
-    def self.add(key, array)
-      self.definitions[key.to_sym] = array
+    # @param [PermissionDefinition] permission_definition settings for permission
+    def self.add(key, permission_definition)
+      self.definitions[key.to_sym] = permission_definition
     end
 
   end
