@@ -38010,3 +38010,199 @@ Completed 200 OK in 78ms (Views: 71.3ms | ActiveRecord: 5.4ms)
   [1m[35m (0.1ms)[0m  begin transaction
   [1m[36mSQL (11.7ms)[0m  [1mINSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Test Event"], ["user_id", 31], ["created_at", "2015-06-04 18:31:39.546220"], ["updated_at", "2015-06-04 18:31:39.546220"]]
   [1m[35m (6.9ms)[0m  commit transaction
+  [1m[36m (44.0ms)[0m  [1mDROP TABLE "collaborations"[0m
+  [1m[35m (3.5ms)[0m  CREATE TABLE "collaborations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "user_id" integer, "event_id" integer, "title" varchar, "permissions" text, "deleted_at" datetime, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (3.8ms)[0m  [1mDROP TABLE "discounts"[0m
+  [1m[35m (4.8ms)[0m  CREATE TABLE "discounts" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "event_id" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (73.1ms)[0m  [1mDROP TABLE "events"[0m
+  [1m[35m (1142.6ms)[0m  CREATE TABLE "events" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "user_id" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (4.1ms)[0m  [1mDROP TABLE "users"[0m
+  [1m[35m (3.3ms)[0m  CREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.1ms)[0m  [1mSELECT version FROM "schema_migrations"[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.048046"], ["updated_at", "2015-11-16 16:05:40.048046"]]
+  [1m[35m (4.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.064837"], ["updated_at", "2015-11-16 16:05:40.064837"]]
+  [1m[36m (4.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Test Event"], ["user_id", 2], ["created_at", "2015-11-16 16:05:40.082983"], ["updated_at", "2015-11-16 16:05:40.082983"]]
+  [1m[35m (4.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.094239"], ["updated_at", "2015-11-16 16:05:40.094239"]]
+  [1m[36m (3.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Test Event"], ["user_id", 3], ["created_at", "2015-11-16 16:05:40.099659"], ["updated_at", "2015-11-16 16:05:40.099659"]]
+  [1m[35m (4.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "discounts" ("name", "event_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "Some Discount"], ["event_id", 2], ["created_at", "2015-11-16 16:05:40.106696"], ["updated_at", "2015-11-16 16:05:40.106696"]]
+  [1m[36m (15.8ms)[0m  [1mcommit transaction[0m
+Processing by EventsController#index as HTML
+  Rendered events/index.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 10ms (Views: 9.9ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.6ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.207341"], ["updated_at", "2015-11-16 16:05:40.207341"]]
+  [1m[35m (4.4ms)[0m  commit transaction
+Processing by EventsController#create as HTML
+Redirected to http://test.host/events
+Filter chain halted as :is_authorized_for_action? rendered or redirected
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.224191"], ["updated_at", "2015-11-16 16:05:40.224191"]]
+  [1m[36m (4.1ms)[0m  [1mcommit transaction[0m
+Processing by EventsController#new as HTML
+Redirected to http://test.host/events
+Filter chain halted as :is_authorized_for_action? rendered or redirected
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.237330"], ["updated_at", "2015-11-16 16:05:40.237330"]]
+  [1m[35m (6.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.248447"], ["updated_at", "2015-11-16 16:05:40.248447"]]
+  [1m[36m (3.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.7ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Test Event"], ["user_id", 7], ["created_at", "2015-11-16 16:05:40.254706"], ["updated_at", "2015-11-16 16:05:40.254706"]]
+  [1m[35m (4.6ms)[0m  commit transaction
+Processing by EventsController#edit as HTML
+  Parameters: {"id"=>"3"}
+  [1m[36mEvent Load (0.2ms)[0m  [1mSELECT  "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1[0m  [["id", 3]]
+Redirected to http://test.host/events/3
+Filter chain halted as :is_authorized_for_action? rendered or redirected
+Completed 302 Found in 10ms (ActiveRecord: 0.2ms)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.275532"], ["updated_at", "2015-11-16 16:05:40.275532"]]
+  [1m[35m (11.8ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.292213"], ["updated_at", "2015-11-16 16:05:40.292213"]]
+  [1m[36m (5.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Test Event"], ["user_id", 9], ["created_at", "2015-11-16 16:05:40.301387"], ["updated_at", "2015-11-16 16:05:40.301387"]]
+  [1m[35m (5.5ms)[0m  commit transaction
+Processing by EventsController#update as HTML
+  Parameters: {"id"=>"4"}
+  [1m[36mEvent Load (0.2ms)[0m  [1mSELECT  "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1[0m  [["id", 4]]
+Redirected to http://test.host/events/4
+Filter chain halted as :is_authorized_for_action? rendered or redirected
+Completed 302 Found in 2ms (ActiveRecord: 0.2ms)
+  [1m[35m (0.6ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.321095"], ["updated_at", "2015-11-16 16:05:40.321095"]]
+  [1m[35m (3.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.332445"], ["updated_at", "2015-11-16 16:05:40.332445"]]
+  [1m[36m (8.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Test Event"], ["user_id", 11], ["created_at", "2015-11-16 16:05:40.345249"], ["updated_at", "2015-11-16 16:05:40.345249"]]
+  [1m[35m (11.6ms)[0m  commit transaction
+Processing by EventsController#destroy as HTML
+  Parameters: {"id"=>"5"}
+  [1m[36mEvent Load (1.1ms)[0m  [1mSELECT  "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1[0m  [["id", 5]]
+Redirected to http://test.host/events/5
+Filter chain halted as :is_authorized_for_action? rendered or redirected
+Completed 302 Found in 3ms (ActiveRecord: 1.1ms)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.374884"], ["updated_at", "2015-11-16 16:05:40.374884"]]
+  [1m[35m (4.4ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.383502"], ["updated_at", "2015-11-16 16:05:40.383502"]]
+  [1m[36m (5.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Test Event"], ["user_id", 13], ["created_at", "2015-11-16 16:05:40.393317"], ["updated_at", "2015-11-16 16:05:40.393317"]]
+  [1m[35m (14.0ms)[0m  commit transaction
+Processing by EventsController#edit as JSON
+  Parameters: {"id"=>"6"}
+  [1m[36mEvent Load (0.1ms)[0m  [1mSELECT  "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1[0m  [["id", 6]]
+Filter chain halted as :is_authorized_for_action? rendered or redirected
+Completed 401 Unauthorized in 1ms (Views: 0.2ms | ActiveRecord: 0.1ms)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.416791"], ["updated_at", "2015-11-16 16:05:40.416791"]]
+  [1m[35m (3.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "Test Event"], ["user_id", 14], ["created_at", "2015-11-16 16:05:40.423278"], ["updated_at", "2015-11-16 16:05:40.423278"]]
+  [1m[36m (4.7ms)[0m  [1mcommit transaction[0m
+Processing by EventsController#edit as HTML
+  Parameters: {"id"=>"7"}
+  [1m[35mEvent Load (0.1ms)[0m  SELECT  "events".* FROM "events" WHERE "events"."id" = ? LIMIT 1  [["id", 7]]
+  Rendered events/edit.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 4ms (Views: 1.7ms | ActiveRecord: 0.1ms)
+  [1m[36m (0.3ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.437884"], ["updated_at", "2015-11-16 16:05:40.437884"]]
+  [1m[36m (3.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.444465"], ["updated_at", "2015-11-16 16:05:40.444465"]]
+  [1m[35m (3.7ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "Test Event"], ["user_id", 16], ["created_at", "2015-11-16 16:05:40.451742"], ["updated_at", "2015-11-16 16:05:40.451742"]]
+  [1m[36m (3.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.457728"], ["updated_at", "2015-11-16 16:05:40.457728"]]
+  [1m[35m (3.4ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.462991"], ["updated_at", "2015-11-16 16:05:40.462991"]]
+  [1m[36m (4.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.469944"], ["updated_at", "2015-11-16 16:05:40.469944"]]
+  [1m[35m (2.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "Test Event"], ["user_id", 19], ["created_at", "2015-11-16 16:05:40.475107"], ["updated_at", "2015-11-16 16:05:40.475107"]]
+  [1m[36m (3.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.482171"], ["updated_at", "2015-11-16 16:05:40.482171"]]
+  [1m[35m (3.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.487539"], ["updated_at", "2015-11-16 16:05:40.487539"]]
+  [1m[36m (3.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.493291"], ["updated_at", "2015-11-16 16:05:40.493291"]]
+  [1m[35m (4.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "Test Event"], ["user_id", 22], ["created_at", "2015-11-16 16:05:40.499949"], ["updated_at", "2015-11-16 16:05:40.499949"]]
+  [1m[36m (3.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.507674"], ["updated_at", "2015-11-16 16:05:40.507674"]]
+  [1m[35m (4.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.513774"], ["updated_at", "2015-11-16 16:05:40.513774"]]
+  [1m[36m (2.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.519330"], ["updated_at", "2015-11-16 16:05:40.519330"]]
+  [1m[35m (3.5ms)[0m  commit transaction
+  [1m[36m (1.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "events" ("name", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "Test Event"], ["user_id", 25], ["created_at", "2015-11-16 16:05:40.526161"], ["updated_at", "2015-11-16 16:05:40.526161"]]
+  [1m[36m (3.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "collaborations" ("event_id", "permissions", "user_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["event_id", 11], ["permissions", "{}"], ["user_id", 23], ["created_at", "2015-11-16 16:05:40.561287"], ["updated_at", "2015-11-16 16:05:40.561287"]]
+  [1m[35m (4.0ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.569056"], ["updated_at", "2015-11-16 16:05:40.569056"]]
+  [1m[36m (3.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.574590"], ["updated_at", "2015-11-16 16:05:40.574590"]]
+  [1m[35m (2.6ms)[0m  commit transaction
+Processing by UsersController#index as HTML
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.604637"], ["updated_at", "2015-11-16 16:05:40.604637"]]
+  [1m[36m (4.0ms)[0m  [1mcommit transaction[0m
+Redirected to http://test.host/
+Completed 500 Internal Server Error in 7ms (ActiveRecord: 4.2ms)
+Processing by UsersController#index as HTML
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.614184"], ["updated_at", "2015-11-16 16:05:40.614184"]]
+  [1m[35m (4.0ms)[0m  commit transaction
+Redirected to http://test.host/
+Filter chain halted as :is_authorized_for_action? rendered or redirected
+Completed 302 Found in 7ms (ActiveRecord: 4.2ms)
+Processing by UsersController#index as HTML
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)  [["created_at", "2015-11-16 16:05:40.623250"], ["updated_at", "2015-11-16 16:05:40.623250"]]
+  [1m[36m (3.7ms)[0m  [1mcommit transaction[0m
+  Rendered users/index.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 10ms (Views: 3.9ms | ActiveRecord: 3.9ms)
+Processing by UsersController#index as HTML
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "users" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2015-11-16 16:05:40.635807"], ["updated_at", "2015-11-16 16:05:40.635807"]]
+  [1m[35m (3.9ms)[0m  commit transaction
+Redirected to http://test.host/
+Filter chain halted as :is_authorized_for_action? rendered or redirected
+Completed 302 Found in 7ms (ActiveRecord: 4.1ms)
